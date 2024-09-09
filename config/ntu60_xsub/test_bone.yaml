@@ -1,0 +1,108 @@
+# python main.py recognition -c config/st_gcn/ntu-xsub/test.yaml
+
+work_dir: /home/xcl/3MNet/workdir/CTR-GCN/test_bone
+weights: /home/xcl/3MNet/workdir/CTR-GCN/xsub/bone/epoch65_model.pt
+
+# feeder
+feeder: feeder.feeder_skeleton.Feeder
+test_feeder_args:
+  centralization: False
+  if_bone: False
+  data_path: /data/xcl_data/ntu/xsub/val_data_bone.npy
+  label_path: /data/xcl_data/ntu/xsub/val_label.pkl
+
+# model
+model: net.gcn.Model
+model_args:
+  in_channels: 3
+  num_point: 25
+  num_class: 60
+  # dropout: 0.5
+  # edge_importance_weighting: True
+  graph: graph.ntu_rgb_d.Graph
+  graph_args:
+    # layout: 'ntu-rgb+d'
+    # strategy: 'spatial'
+    labeling_mode: 'spatial'
+
+# test
+phase: test
+device: [5, 6]
+test_batch_size: 64
+
+# save
+save_result: True
+
+
+
+# work_dir: /home/xcl/3MNet/workdir/CTR-GCN/xsub/bone
+
+# # feeder
+# # feeder: feeder.feeder_skeleton.Feeder
+# feeder: feeder.feeder_ntu.Feeder
+# # train_feeder_args:
+# #   centralization: False
+# #   random_move: False
+# #   random_rot: True
+# #   if_bone: False
+# #   data_path: /data/xcl_data/ntu/xsub/train_data_joint.npy
+# #   label_path: /data/xcl_data/ntu/xsub/train_label.pkl
+# # test_feeder_args: 
+# #   centralization: False
+# #   if_bone: False
+# #   data_path: /data/xcl_data/ntu/xsub/val_data_joint.npy
+# #   label_path: /data/xcl_data/ntu/xsub/val_label.pkl
+
+# train_feeder_args:
+#   data_path: /data/xcl_data/CTR-GCN-main/data/ntu/NTU60_CS.npz
+#   split: train
+#   debug: False
+#   random_choose: False
+#   random_shift: False
+#   random_move: False
+#   window_size: 64
+#   normalization: False
+#   random_rot: True
+#   p_interval: [0.5, 1]
+#   vel: True
+#   bone: True
+
+# test_feeder_args:
+#   data_path: /data/xcl_data/CTR-GCN-main/data/ntu/NTU60_CS.npz
+#   split: test
+#   window_size: 64
+#   p_interval: [0.95]
+#   vel: True
+#   bone: True
+#   debug: False
+
+# # model
+# model: net.gcn.Model
+# model_args:
+#   in_channels: 3
+#   num_class: 60
+#   num_point: 25
+#   num_person: 2
+#   # dropout: 0.5
+#   # edge_importance_weighting: True
+#   graph: graph.ntu_rgb_d.Graph
+#   graph_args:
+#     # layout: 'ntu-rgb+d'
+#     # strategy: 'spatial'
+#     labeling_mode: 'spatial'
+
+# #optim
+# weight_decay: 0.0001
+# # weight_decay: 0.0004
+# base_lr: 0.1
+# # step: [10, 50]
+# step: [35, 55]
+# warm_up_epoch: 5 
+
+# # training
+# device: [8, 9]
+# batch_size: 64
+# test_batch_size: 64
+# num_epoch: 65
+# nesterov: True
+

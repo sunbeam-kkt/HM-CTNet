@@ -1,0 +1,34 @@
+# python main.py recognition -c config/st_gcn/ntu-xsub/test.yaml
+
+work_dir: /home/xcl/MMNet-main/workdir/ST-GCN/xsub/test_joint
+weights: /home/xcl/MMNet-main/workdir/ST-GCN/xsub/joint/epoch65_model.pt
+
+# feeder
+feeder: feeder.feeder_skeleton.Feeder
+test_feeder_args:
+  centralization: False
+  if_bone: False
+  data_path: /data/xcl_data/ntu/xsub/val_data_joint.npy
+  label_path: /data/xcl_data/ntu/xsub/val_label.pkl
+
+# model
+model: net.gcn.Model
+model_args:
+  in_channels: 3
+  num_point: 25
+  num_class: 60
+  graph: graph.ntu_rgb_d.Graph
+  # dropout: 0.5
+  # edge_importance_weighting: True
+  graph_args:
+    # layout: 'ntu-rgb+d'
+    # strategy: 'spatial'
+    labeling_mode: 'spatial'
+
+# test
+phase: test
+device: [7, 8, 9]
+test_batch_size: 64
+
+# save
+save_result: True

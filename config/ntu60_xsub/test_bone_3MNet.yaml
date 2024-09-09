@@ -1,0 +1,32 @@
+work_dir: /home/xcl/3MNet/workdir/3MNet/test_bone
+weights: /data/xcl_data/3MNet-master/workdir/3MNet/xsub/bone/epoch70_model.pt
+
+# feeder
+feeder: feeder.feeder_skeleton.Feeder
+test_feeder_args:
+  centralization: False
+  if_bone: False
+  data_path: /data/xcl_data/ntu/xsub/val_data_bone.npy
+  label_path: /data/xcl_data/ntu/xsub/val_label.pkl
+
+# model
+model: net.3MNet.Model
+model_args:
+  in_channels: 3
+  num_class: 60
+  num_point: 25
+  num_person: 2
+  graph: graph.ntu_rgb_d.Graph
+  graph_args:
+    labeling_mode: 'spatial'
+  # examplar: graph.cls_examplar.CLSExamplar
+  # examplar_args:
+  #   topo_str: "what_will_[J]_act_like_when_[C]-with-punctuation"
+
+# test
+phase: test
+device: [4, 5]
+test_batch_size: 64
+
+# save
+save_result: True

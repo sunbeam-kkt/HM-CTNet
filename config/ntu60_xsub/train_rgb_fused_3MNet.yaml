@@ -1,0 +1,61 @@
+# python main_rgb_fused.py recognition -c config/ntu60_xsub/train_rgb_fused.yaml
+work_dir: /home/xcl/MMNet-main/workdir/3MNet/xsub/RGB_fused
+
+# skeleton_joints_pkl: /home/xcl/3MNet/workdir/3MNet/test_joint/test_result.pkl
+# skeleton_bones_pkl: /home/xcl/3MNet/workdir/3MNet/test_bone/test_result.pkl
+
+skeleton_joints_pkl: /data/xcl_data/HM-CTNet/workdir/HM-CTNet/xsub/joint/test_result_epoch60.pkl
+skeleton_bones_pkl: /data/xcl_data/HM-CTNet/workdir/HM-CTNet/xsub/bone/test_result_epoch65.pkl
+
+# feeder
+feeder: feeder.feeder_rgb_fused_ntu.Feeder
+train_feeder_args:
+  debug: False
+  random_choose: False
+  centralization: False
+  random_move: False
+  window_size: -1
+  random_flip: False
+  random_interval: True
+  temporal_rgb_frames: 5
+  data_path: /data/xcl_data/ntu/xsub/train_data_joint.npy
+  label_path: /data/xcl_data/ntu/xsub/train_label.pkl
+test_feeder_args:
+  debug: False
+  centralization: False
+  evaluation: True
+  temporal_rgb_frames: 5
+  data_path: /data/xcl_data/ntu/xsub/val_data_joint.npy
+  label_path: /data/xcl_data/ntu/xsub/val_label.pkl
+
+# model
+model: net.mmn.Model
+model_args:
+  in_channels: 3
+  num_class: 60
+  # dropout: 0.5
+  graph: graph.ntu_rgb_d.Graph
+  # edge_importance_weighting: True
+  graph_args:
+    # layout: 'ntu-rgb+d'
+    # strategy: 'spatial'
+    labeling_mode: 'spatial'
+  # examplar: graph.cls_examplar.CLSExamplar
+  # examplar_args:
+  #   topo_str: "what_will_[J]_act_like_when_[C]-with-punctuation"
+
+# training
+temporal_positions: 15
+fix_weights: True
+joint_weights: /data/xcl_data/HM-CTNet/workdir/HM-CTNet/xsub/joint/epoch60_model.pt
+device: [1, 2]
+weight_decay: 0.0001
+base_lr: 0.1
+step: [35, 55]
+warm_up_epoch: 5
+batch_size: 8
+test_batch_size: 8
+num_epoch: 65
+
+# debug
+debug: False

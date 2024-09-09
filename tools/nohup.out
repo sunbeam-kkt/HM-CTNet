@@ -1,0 +1,7 @@
+ntu/xview train
+Traceback (most recent call last):
+  File "data_gen/gen_bone_data.py", line 51, in <module>
+    fp_sp = open_memmap(
+  File "/usr/local/anaconda3/envs/xcl/lib/python3.8/site-packages/numpy/lib/format.py", line 860, in open_memmap
+    with open(os_fspath(filename), mode+'b') as fp:
+PermissionError: [Errno 13] Permission denied: '/data/xcl_data/ntu/xview/train_data_bone.npy'

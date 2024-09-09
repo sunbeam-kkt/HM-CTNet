@@ -1,0 +1,47 @@
+work_dir: /home/xcl/3MNet-master/workdir/3MNet/xsub/joint
+
+# feeder
+feeder: feeder.feeder_skeleton.Feeder
+train_feeder_args:
+  centralization: False
+  random_move: False
+  # random_rot: False
+  random_rot: True
+  if_bone: False
+  data_path: /data/xcl_data/ntu/xsub/train_data_joint.npy
+  label_path: /data/xcl_data/ntu/xsub/train_label.pkl
+test_feeder_args: 
+  centralization: False
+  if_bone: False
+  data_path: /data/xcl_data/ntu/xsub/val_data_joint.npy
+  label_path: /data/xcl_data/ntu/xsub/val_label.pkl
+
+# model
+model: net.3MNet.Model
+model_args:
+  in_channels: 3
+  num_class: 60
+  num_point: 25
+  num_person: 2
+  graph: graph.ntu_rgb_d.Graph
+  graph_args:
+    labeling_mode: 'spatial'
+  # examplar: graph.cls_examplar.CLSExamplar
+  # examplar_args:
+  #   topo_str: "what_will_[J]_act_like_when_[C]-with-punctuation"
+
+#optim
+weight_decay: 0.0004
+# weight_decay: 0.0001
+base_lr: 0.1
+# step: [30, 60]
+step: [10, 50]
+warm_up_epoch: 5 
+
+# training
+device: [6, 7, 8, 9]
+batch_size: 32
+test_batch_size: 32
+# num_epoch: 65
+num_epoch: 80
+nesterov: True
