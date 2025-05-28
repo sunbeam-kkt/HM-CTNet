@@ -1,49 +1,3 @@
-# # python main.py recognition -c config/st_gcn/ntu-xsub/train_bone.yaml
-# work_dir: /home/xcl/MMNet-main/workdir/ST-GCN/xsub/bone
-
-# # feeder
-# feeder: feeder.feeder_skeleton.Feeder
-# train_feeder_args:
-#   centralization: False
-#   random_move: False
-#   if_bone: False
-#   data_path: /data/xcl_data/ntu/xsub/train_data_bone.npy
-#   label_path: /data/xcl_data/ntu/xsub/train_label.pkl
-# test_feeder_args:
-#   centralization: False
-#   if_bone: False
-#   data_path: /data/xcl_data/ntu/xsub/val_data_bone.npy
-#   label_path: /data/xcl_data/ntu/xsub/val_label.pkl
-
-# # model
-# model: net.gcn.Model
-# model_args:
-#   in_channels: 3
-#   num_point: 25
-#   num_class: 60
-#   graph: graph.ntu_rgb_d.Graph
-#   # dropout: 0.5
-#   # edge_importance_weighting: True
-#   graph_args:
-#     # layout: 'ntu-rgb+d'
-#     # strategy: 'spatial'
-#     labeling_mode: 'spatial'
-
-# #optim
-# weight_decay: 0.0004
-# base_lr: 0.1
-# step: [35, 55]
-# warm_up_epoch: 5
-
-# # training
-# device: [8, 9]
-# batch_size: 32
-# test_batch_size: 32
-# num_epoch: 65
-# nesterov: True
-
-
-
 # python main.py recognition -c config/st_gcn/ntu-xsub/train.yaml
 work_dir: /home/xcl/3MNet/workdir/CTR-GCN/xsub/bone
 
@@ -63,28 +17,6 @@ test_feeder_args:
   data_path: /data/xcl_data/ntu/xsub/val_data_bone.npy
   label_path: /data/xcl_data/ntu/xsub/val_label.pkl
 
-# train_feeder_args:
-#   data_path: /data/xcl_data/CTR-GCN-main/data/ntu/NTU60_CS.npz
-#   split: train
-#   debug: False
-#   random_choose: False
-#   random_shift: False
-#   random_move: False
-#   window_size: 64
-#   normalization: False
-#   random_rot: True
-#   p_interval: [0.5, 1]
-#   vel: False
-#   bone: True
-
-# test_feeder_args:
-#   data_path: /data/xcl_data/CTR-GCN-main/data/ntu/NTU60_CS.npz
-#   split: test
-#   window_size: 64
-#   p_interval: [0.95]
-#   vel: False
-#   bone: True
-#   debug: False
 
 # model
 model: net.gcn.Model
