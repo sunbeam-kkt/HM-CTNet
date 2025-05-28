@@ -13,17 +13,17 @@ from PIL import Image
 import numpy as np
 import time
 
-frame_path = '/data/xcl_data/nturgb+d_rgb/nturgb+d_60_rgb/nturgb+d_frames/'     # RGB帧的位置
-frame_path_120 = '/media/bruce/2Tssd2/ntu120/ntu_rgb_frames/'                   # 
-openpose_path = '/data/xcl_data/MMNets/openpose/openpose/'                      # 由openpose获得的骨关节点的位置坐标
-openpose_path_120 = '/media/bruce/2T/data/openpose120/'                         # 
-save_path = '/data/xcl_data/MMNets/ntu60/ntu_rgb_frames_crop/NTU60_twofs/'            # 裁剪后的图片的保存位置
-save_path_120 = '/data/xcl_data/MMNets/ntu120/ntu_rgb_frames_crop/fivefsz'      # 
-depth_path = '/data/xcl_data/nturgb+d_depth_masked/nturgb+d_depth_masked/nturgb+d_depth_masked/'      # 深度图的存放位置
+frame_path = '/data/xcl_data/nturgb+d_rgb/nturgb+d_60_rgb/nturgb+d_frames/'    
+frame_path_120 = '/media/bruce/2Tssd2/ntu120/ntu_rgb_frames/'                   
+openpose_path = '/data/xcl_data/MMNets/openpose/openpose/'                     
+openpose_path_120 = '/media/bruce/2T/data/openpose120/'                        
+save_path = '/data/xcl_data/MMNets/ntu60/ntu_rgb_frames_crop/NTU60_twofs/'           
+save_path_120 = '/data/xcl_data/MMNets/ntu120/ntu_rgb_frames_crop/fivefsz'     
+depth_path = '/data/xcl_data/nturgb+d_depth_masked/nturgb+d_depth_masked/nturgb+d_depth_masked/'     
 depth_path_120 = '/mnt/nas/ntu-rgbd/NTU120/Masked depth maps/nturgb+d_depth_masked/'
 debug = False
 
-def filename_construct(setup_id, camera_id, subject_id, duplicate_id, action_id):   # 文件名构建
+def filename_construct(setup_id, camera_id, subject_id, duplicate_id, action_id):  
     skeleton_file_name = ''
     if setup_id/10 >= 1:
         skeleton_file_name = skeleton_file_name +'S0' + str(setup_id)
@@ -67,28 +67,28 @@ def openposeFile(frame_file, frame, skeleton_file_name, openpose_path):
         frame_ ='00' + str(frame)
     openpose_file_ = openpose_path + skeleton_file_name + '/' + skeleton_file_name + '_rgb_000000000'+ frame_ + '_keypoints.json'
 
-    return openpose_file_, frame_file_                                  # openpose_file_指openpose处理后的.json文件，frame_file_指的是matlab处理后的.jpg图片
+    return openpose_file_, frame_file_                                 
 
 def cropBody(openpose_file, frame_file, action_id, flip):
     #upper=Image.new( 'RGB' , (224,112) , (0,0,0) )
     #lower=Image.new( 'RGB' , (224,112) , (0,0,0) )
     #whole=Image.new( 'RGB' , (224,448) , (0,0,0) )
 
-    frame = Image.open(frame_file)                                                   # 读取原始图片
-    frame_width, frame_height = frame.size                                           # frame_width，frame_height分别是图片的宽和高
+    frame = Image.open(frame_file)                                                  
+    frame_width, frame_height = frame.size                                          
 
-    if openpose_file:   # 如果存在文件
-        with open(openpose_file, 'r') as f:   # 读取文件
-            skeleton = json.load(f)           # 加载.json文件
+    if openpose_file:  
+        with open(openpose_file, 'r') as f:  
+            skeleton = json.load(f)          
 
 
     # calculate which people?
     if len(skeleton['people']) == 1 or action_id < 50: # or action_id > 49: 如果只有一个人
-        people_index = 0                                                # 初始化people_index=0
+        people_index = 0                                               
         if len(skeleton['people']) > 1:
             #print('frame_file: ', frame_file)
             #print('number of prople:', len(skeleton['people']))
-            frame_file_split = frame_file.split('/')              # 将frame_file按/分隔开来
+            frame_file_split = frame_file.split('/')             
             frame_num = int(frame_file_split[7].split('.')[0])
             if frame_num/1000 >= 1:
                 depth_frame_file = depth_path + frame_file_split[6] +'/MDepth-0000'+str(frame_num)+'.png'
@@ -172,7 +172,7 @@ def cropBody(openpose_file, frame_file, action_id, flip):
             frame_concat.paste(L_hand, (0,0))
             frame_concat.paste(R_hand, (0,128))
             # frame_concat.paste(L_leg, (0,288))
-            # frame_concat.paste(R_leg, (0,384))     # 至此完成图片补丁空间上的paste
+            # frame_concat.paste(R_leg, (0,384))    
         #print('frame_concat   if')
         return frame_concat
 
